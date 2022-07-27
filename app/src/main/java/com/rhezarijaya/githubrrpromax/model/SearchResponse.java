@@ -3,6 +3,8 @@ package com.rhezarijaya.githubrrpromax.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -36,14 +38,6 @@ public class SearchResponse implements Parcelable {
         }
     };
 
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public boolean isIncompleteResults() {
-        return incompleteResults;
-    }
-
     public List<UserDetail> getItems() {
         return items;
     }
@@ -60,6 +54,7 @@ public class SearchResponse implements Parcelable {
         dest.writeTypedList(items);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "SearchResponse{" +

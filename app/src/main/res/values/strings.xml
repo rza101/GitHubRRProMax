@@ -3,7 +3,7 @@
 
     <string name="search">Search</string>
     <string name="search_hint">Enter Username</string>
-    <string name="search_info">Showing %d results for query %s</string>
+    <string name="search_info">Showing %d results</string>
     <string name="no_result">No Result</string>
 
     <string name="followings">Followings</string>

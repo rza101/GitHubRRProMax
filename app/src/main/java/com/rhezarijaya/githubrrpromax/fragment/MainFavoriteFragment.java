@@ -52,6 +52,23 @@ public class MainFavoriteFragment extends Fragment {
                 (ViewModelProvider.Factory) new MainViewModelFactory(favoriteRepository)
         ).get(MainViewModel.class);
 
+        userListAdapter = new UserListAdapter(
+                data -> {
+                    Intent intent = new Intent(requireActivity(), UserDetailActivity.class);
+                    intent.putExtra(Constants.INTENT_MAIN_TO_USER_DETAIL, data);
+                    startActivity(intent);
+                },
+                data -> {
+                    Favorite favorite = new Favorite();
+                    favorite.setUsername(data.getLogin());
+                    favorite.setUserId(data.getId());
+                    favorite.setAvatarUrl(data.getAvatarUrl());
+
+                    mainViewModel.deleteFavorite(favorite);
+                    Toast.makeText(requireActivity(), "Successfully deleted from favorites!", Toast.LENGTH_SHORT).show();
+                }
+        );
+
         mainViewModel.getFavoriteList().observe(requireActivity(), favoriteList -> {
             if(favoriteList.size() == 0){
                 binding.fragmentMainFavoriteTvNoItem.setVisibility(View.VISIBLE);
@@ -73,23 +90,6 @@ public class MainFavoriteFragment extends Fragment {
 
             userListAdapter.submitList(userDetailList);
         });
-
-        userListAdapter = new UserListAdapter(
-                data -> {
-                    Intent intent = new Intent(requireActivity(), UserDetailActivity.class);
-                    intent.putExtra(Constants.INTENT_MAIN_TO_USER_DETAIL, data);
-                    startActivity(intent);
-                },
-                data -> {
-                    Favorite favorite = new Favorite();
-                    favorite.setUsername(data.getLogin());
-                    favorite.setUserId(data.getId());
-                    favorite.setAvatarUrl(data.getAvatarUrl());
-
-                    mainViewModel.deleteFavorite(favorite);
-                    Toast.makeText(requireActivity(), "Successfully deleted from favorites!", Toast.LENGTH_SHORT).show();
-                }
-        );
 
         binding.fragmentMainFavoriteRvFav.setAdapter(userListAdapter);
         binding.fragmentMainFavoriteRvFav.setLayoutManager(new LinearLayoutManager(requireActivity()));

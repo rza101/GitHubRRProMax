@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "tbl_favorite")
 public class Favorite implements Parcelable {
     @NonNull
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey()
     @ColumnInfo(name = "username")
     private String username;
 
@@ -46,11 +46,12 @@ public class Favorite implements Parcelable {
         }
     };
 
+    @NonNull
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(@NonNull String username) {
         this.username = username;
     }
 
@@ -91,6 +92,7 @@ public class Favorite implements Parcelable {
         dest.writeString(addedAt);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Favorite{" +

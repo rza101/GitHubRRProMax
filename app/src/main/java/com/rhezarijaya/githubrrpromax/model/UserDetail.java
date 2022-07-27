@@ -3,6 +3,8 @@ package com.rhezarijaya.githubrrpromax.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -128,14 +130,6 @@ public class UserDetail implements Parcelable {
         return following;
     }
 
-    public String getFollowersUrl() {
-        return followersUrl;
-    }
-
-    public String getFollowingUrl() {
-        return followingUrl;
-    }
-
     public String getCompany() {
         return company;
     }
@@ -168,42 +162,11 @@ public class UserDetail implements Parcelable {
         this.avatarUrl = avatarUrl;
     }
 
-    public void setPublicRepos(int publicRepos) {
-        this.publicRepos = publicRepos;
-    }
-
-    public void setFollowers(int followers) {
-        this.followers = followers;
-    }
-
-    public void setFollowing(int following) {
-        this.following = following;
-    }
-
-    public void setFollowersUrl(String followersUrl) {
-        this.followersUrl = followersUrl;
-    }
-
-    public void setFollowingUrl(String followingUrl) {
-        this.followingUrl = followingUrl;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public void setOnFavorite(boolean onFavorite) {
         isOnFavorite = onFavorite;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "UserDetail{" +

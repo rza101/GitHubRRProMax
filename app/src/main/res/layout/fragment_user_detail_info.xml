@@ -25,6 +25,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@mipmap/ic_launcher_round" />
 
+            <ImageView
+                android:id="@+id/fragment_user_detail_info_iv_favorite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:tint="@color/orange"
+                android:contentDescription="@string/favorite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/fragment_user_detail_info_civ_avatar"
+                tools:src="@drawable/ic_baseline_star_outline_24" />
+
             <TextView
                 android:id="@+id/fragment_user_detail_info_tv_name"
                 android:layout_width="0dp"

@@ -47,4 +47,7 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }, Constants.SPLASH_SCREEN_DELAY);
     }
+
+    @Override
+    public void onBackPressed() {}
 }

@@ -68,4 +68,17 @@ public class FavoriteRepository {
 
         return combinedList;
     }
+
+    public static boolean isUsernameOnFavorite(List<Favorite> favoriteList, String username){
+        boolean isFound = false;
+
+        for(Favorite favorite : favoriteList){
+            if(username.equalsIgnoreCase(favorite.getUsername())){
+                isFound = true;
+                break;
+            }
+        }
+
+        return isFound;
+    }
 }

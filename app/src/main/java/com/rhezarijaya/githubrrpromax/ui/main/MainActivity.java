@@ -7,19 +7,15 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.rhezarijaya.githubrrpromax.R;
-import com.rhezarijaya.githubrrpromax.adapter.MainFragmentAdapter;
 import com.rhezarijaya.githubrrpromax.databinding.ActivityMainBinding;
 import com.rhezarijaya.githubrrpromax.ui.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final String[] pageTitles = {
-            "Search",
-            "Favorites"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +24,8 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(this);
-
-        binding.mainViewPager.setAdapter(mainFragmentAdapter);
-        binding.mainViewPager.setUserInputEnabled(false);
-
-        new TabLayoutMediator(
-                binding.mainTabLayout,
-                binding.mainViewPager,
-                (tab, position) -> tab.setText(pageTitles[position])
-        ).attach();
+        NavController navController = Navigation.findNavController(this, R.id.main_nav_host);
+        NavigationUI.setupWithNavController(binding.mainBottomNavView, navController);
     }
 
     @Override
@@ -54,11 +42,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
     }
 }

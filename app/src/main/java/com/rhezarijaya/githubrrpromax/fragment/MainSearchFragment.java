@@ -50,36 +50,6 @@ public class MainSearchFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity(), (ViewModelProvider.Factory) new MainViewModelFactory(favoriteRepository)).get(MainViewModel.class);
 
-        mainViewModel.getUserDetailWithFavorite().observe(requireActivity(), userDetails -> {
-            if (userDetails.size() == 0) {
-                binding.fragmentMainSearchTvNoResult.setText(R.string.no_result);
-                binding.fragmentMainSearchTvInfo.setText("");
-            } else {
-                binding.fragmentMainSearchTvNoResult.setText("");
-                binding.fragmentMainSearchTvInfo.setText(
-                        String.format(
-                                requireActivity().getResources().getString(R.string.search_info),
-                                userDetails.size(),
-                                binding.fragmentMainSearchSearchview.getQuery().toString()
-                        )
-                );
-            }
-
-            userListAdapter.submitList(userDetails);
-        });
-
-        mainViewModel.getError().observe(requireActivity(), errors -> {
-            if (!errors.hasBeenDone()) {
-                Toast.makeText(requireActivity(), errors.getData(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mainViewModel.isLoading().observe(requireActivity(), isLoading -> {
-            binding.fragmentMainSearchProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            binding.fragmentMainSearchTvInfo.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-            binding.fragmentMainSearchTvNoResult.setVisibility(isLoading ? View.GONE : View.VISIBLE);
-        });
-
         userListAdapter = new UserListAdapter(
                 data -> {
                     Intent intent = new Intent(requireActivity(), UserDetailActivity.class);
@@ -101,6 +71,36 @@ public class MainSearchFragment extends Fragment {
                     }
                 }
         );
+
+        mainViewModel.getUserDetailWithFavorite().observe(requireActivity(), userDetails -> {
+            if (userDetails.size() == 0) {
+                binding.fragmentMainSearchTvNoResult.setText(R.string.no_result);
+                binding.fragmentMainSearchTvInfo.setText("");
+            } else {
+                binding.fragmentMainSearchTvNoResult.setText("");
+                binding.fragmentMainSearchTvInfo.setText(
+                        String.format(
+                                requireActivity().getResources().getString(R.string.search_info),
+                                userDetails.size()
+                        )
+                );
+            }
+
+            userListAdapter.submitList(userDetails);
+        });
+
+        mainViewModel.getError().observe(requireActivity(), errors -> {
+            if (!errors.hasBeenDone()) {
+                Toast.makeText(requireActivity(), errors.getData(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mainViewModel.isLoading().observe(requireActivity(), isLoading -> {
+            binding.fragmentMainSearchProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            binding.fragmentMainSearchTvInfo.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+            binding.fragmentMainSearchTvNoResult.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+        });
+
 
         binding.fragmentMainSearchSearchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

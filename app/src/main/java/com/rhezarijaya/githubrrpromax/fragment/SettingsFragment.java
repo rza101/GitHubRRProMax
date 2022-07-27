@@ -2,14 +2,12 @@ package com.rhezarijaya.githubrrpromax.fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.datastore.preferences.core.Preferences;
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder;
 import androidx.datastore.rxjava3.RxDataStore;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
@@ -48,12 +46,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
-        darkModeSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
-                settingsViewModel.setAppTheme((Boolean) newValue);
-                return true;
-            }
+        darkModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+            settingsViewModel.setAppTheme((Boolean) newValue);
+            return true;
         });
     }
 }

@@ -15,6 +15,7 @@ import com.rhezarijaya.githubrrpromax.util.SingleEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +25,7 @@ public class UserDetailViewModel extends ViewModel {
     private final MutableLiveData<List<Favorite>> favoriteList = new MutableLiveData<>();
 
     private final MutableLiveData<UserDetail> userDetail = new MutableLiveData<>();
+    private final MediatorLiveData<UserDetail> userDetailWithFavorite = new MediatorLiveData<>();
     private final MutableLiveData<UserDetail> userSearchData = new MutableLiveData<>();
     private final MutableLiveData<List<UserDetail>> followersList = new MutableLiveData<>();
     private final MutableLiveData<List<UserDetail>> followingsList = new MutableLiveData<>();
@@ -51,6 +53,10 @@ public class UserDetailViewModel extends ViewModel {
 
     public LiveData<UserDetail> getUserDetail() {
         return userDetail;
+    }
+
+    public LiveData<UserDetail> getUserDetailWithFavorite() {
+        return userDetailWithFavorite;
     }
 
     public LiveData<UserDetail> getUserSearchData() {
@@ -184,9 +190,35 @@ public class UserDetailViewModel extends ViewModel {
         favoriteRepository.delete(favorite);
     }
 
-    public void mediatorAddSources(){
+    public void mediatorAddSources() {
+        userDetailWithFavorite.addSource(getUserDetail(), userDetail -> {
+            if (getUserDetail().getValue() != null) {
+                UserDetail tempUserDetail = getUserDetail().getValue();
+                tempUserDetail.setOnFavorite(
+                        FavoriteRepository.isUsernameOnFavorite(
+                                Objects.requireNonNull(this.favoriteList.getValue()),
+                                tempUserDetail.getLogin())
+                );
+                userDetailWithFavorite.setValue(tempUserDetail);
+            }
+        });
+
+        userDetailWithFavorite.addSource(getFavoriteList(), favoriteList -> {
+            this.favoriteList.setValue(favoriteList);
+
+            if (getUserDetail().getValue() != null) {
+                UserDetail tempUserDetail = getUserDetail().getValue();
+                tempUserDetail.setOnFavorite(
+                        FavoriteRepository.isUsernameOnFavorite(
+                                Objects.requireNonNull(this.favoriteList.getValue()),
+                                tempUserDetail.getLogin())
+                );
+                userDetailWithFavorite.setValue(tempUserDetail);
+            }
+        });
+
         followersWithFavorite.addSource(getFollowersList(), userDetails -> {
-            if(getFollowersList().getValue() != null){
+            if (getFollowersList().getValue() != null) {
                 followersWithFavorite.setValue(
                         FavoriteRepository.combineUserDetailsWithFavorites(
                                 getFollowersList().getValue(), this.favoriteList.getValue())
@@ -197,7 +229,7 @@ public class UserDetailViewModel extends ViewModel {
         followersWithFavorite.addSource(getFavoriteList(), favoriteList -> {
             this.favoriteList.setValue(favoriteList);
 
-            if(getFollowersList().getValue() != null){
+            if (getFollowersList().getValue() != null) {
                 followersWithFavorite.setValue(
                         FavoriteRepository.combineUserDetailsWithFavorites(
                                 getFollowersList().getValue(), this.favoriteList.getValue())
@@ -206,7 +238,7 @@ public class UserDetailViewModel extends ViewModel {
         });
 
         followingsWithFavorite.addSource(getFollowingsList(), userDetails -> {
-            if(getFollowingsList().getValue() != null){
+            if (getFollowingsList().getValue() != null) {
                 followingsWithFavorite.setValue(
                         FavoriteRepository.combineUserDetailsWithFavorites(
                                 getFollowingsList().getValue(), this.favoriteList.getValue())
@@ -217,7 +249,7 @@ public class UserDetailViewModel extends ViewModel {
         followingsWithFavorite.addSource(getFavoriteList(), favoriteList -> {
             this.favoriteList.setValue(favoriteList);
 
-            if(getFollowingsList().getValue() != null){
+            if (getFollowingsList().getValue() != null) {
                 followingsWithFavorite.setValue(
                         FavoriteRepository.combineUserDetailsWithFavorites(
                                 getFollowingsList().getValue(), this.favoriteList.getValue())
@@ -226,7 +258,10 @@ public class UserDetailViewModel extends ViewModel {
         });
     }
 
-    public void mediatorRemoveSources(){
+    public void mediatorRemoveSources() {
+        userDetailWithFavorite.removeSource(getUserDetail());
+        userDetailWithFavorite.removeSource(getFavoriteList());
+
         followersWithFavorite.removeSource(getFollowersList());
         followersWithFavorite.removeSource(getFavoriteList());
 

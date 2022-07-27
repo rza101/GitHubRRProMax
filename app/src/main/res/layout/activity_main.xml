@@ -6,21 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/main_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:tabTextColor="@color/white"
-        app:tabIndicatorHeight="5dp"
-        app:tabIndicatorColor="@color/teal_light"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/main_view_pager"
+    <fragment
+        android:id="@+id/main_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/main_tab_layout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_bottom_nav_view"
+        app:navGraph="@navigation/nav_main" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/main_bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_main_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
