@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/root_padding"
+    tools:context=".fragment.MainSearchFragment">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/fragment_main_search_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search_bordered"
+        android:paddingVertical="5dp"
+        android:paddingEnd="20dp"
+        app:defaultQueryHint="@string/search_hint"
+        app:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="@string/search_hint" />
+
+    <TextView
+        android:id="@+id/fragment_main_search_tv_info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@id/fragment_main_search_searchview"
+        tools:text="Showing n results for query x" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_main_search_rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_main_search_tv_info"
+        tools:listitem="@layout/item_user" />
+
+    <TextView
+        android:id="@+id/fragment_main_search_tv_no_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/no_result" />
+
+    <ProgressBar
+        android:id="@+id/fragment_main_search_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/orange"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fragment_main_search_rv_search"
+        app:layout_constraintEnd_toEndOf="@id/fragment_main_search_rv_search"
+        app:layout_constraintStart_toStartOf="@id/fragment_main_search_rv_search"
+        app:layout_constraintTop_toTopOf="@id/fragment_main_search_rv_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
