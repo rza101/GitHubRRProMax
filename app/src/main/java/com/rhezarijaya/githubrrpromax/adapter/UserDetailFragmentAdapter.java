@@ -10,6 +10,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.rhezarijaya.githubrrpromax.fragment.UserDetailFollowFragment;
 import com.rhezarijaya.githubrrpromax.fragment.UserDetailInfoFragment;
 
+import java.util.Objects;
+
 public class UserDetailFragmentAdapter extends FragmentStateAdapter {
     public UserDetailFragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -42,7 +44,7 @@ public class UserDetailFragmentAdapter extends FragmentStateAdapter {
                 break;
         }
 
-        return fragment;
+        return Objects.requireNonNull(fragment);
     }
 
     @Override
